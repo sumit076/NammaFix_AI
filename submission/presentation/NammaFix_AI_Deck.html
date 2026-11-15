@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NammaFix AI — Presentation Deck</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy-950: #071a33; --navy-900: #0b2545; --navy-800: #13315c; --navy-700: #1b4079;
+    --brand-600: #1f5ccc; --brand-500: #2f6fdd; --brand-50: #eef4ff; --brand-100: #dbe8ff;
+    --ink-900: #101828; --ink-700: #344054; --ink-500: #5b6677; --ink-300: #98a2b3;
+    --line: #e4e7ec; --canvas: #f5f7fa; --white: #ffffff;
+    --green-600: #16a34a; --green-50: #f0fdf4; --green-200: #bbf7d0;
+    --amber-700: #b45309; --amber-50: #fffbeb; --amber-200: #fde68a;
+    --red-600: #dc2626; --red-50: #fef2f2;
+    --purple-600: #7c3aed; --purple-50: #f5f3ff;
+  }
+  body { font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; background: var(--canvas); color: var(--ink-900); line-height: 1.6; font-size: 15px; }
+
+  /* ── Layout ── */
+  .slide { width: 100%; max-width: 900px; margin: 0 auto 2.5rem; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(16,24,40,0.10), 0 1px 2px rgba(16,24,40,0.06); background: var(--white); }
+  .slide-header { padding: 2rem 2.5rem 1.5rem; }
+  .slide-body { padding: 0 2.5rem 2rem; }
+  .slide-num { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .55; margin-bottom: .4rem; }
+
+  /* ── Typography ── */
+  h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; }
+  h2 { font-size: 1.35rem; font-weight: 700; line-height: 1.3; }
+  h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
+  p { color: var(--ink-700); font-size: .95rem; }
+  .sub { font-size: .82rem; color: var(--ink-500); }
+
+  /* ── Colour helpers ── */
+  .bg-navy { background: var(--navy-900); color: var(--white); }
+  .bg-brand { background: var(--brand-600); color: var(--white); }
+  .bg-canvas { background: var(--canvas); }
+  .bg-green { background: var(--green-50); border: 1px solid var(--green-200); }
+  .bg-amber { background: var(--amber-50); border: 1px solid var(--amber-200); }
+  .text-brand { color: var(--brand-500); }
+  .text-navy { color: var(--navy-900); }
+  .text-muted { color: var(--ink-500); }
+
+  /* ── Cover ── */
+  .cover { background: linear-gradient(135deg, var(--navy-950) 0%, var(--navy-800) 60%, var(--navy-700) 100%); color: var(--white); padding: 3.5rem 2.5rem; }
+  .cover h1 { font-size: 2.6rem; }
+  .cover .tagline { font-size: 1.1rem; color: #93c5fd; margin-top: .6rem; font-weight: 500; }
+  .cover .sub { color: #bfdbfe; margin-top: 1.2rem; font-size: .9rem; }
+  .pill { display: inline-block; background: rgba(255,255,255,.12); border-radius: 999px; padding: .3rem .9rem; font-size: .78rem; font-weight: 600; margin-right: .4rem; margin-top: .6rem; }
+
+  /* ── Grid helpers ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.1rem; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; }
+  @media(max-width:640px) { .grid-2,.grid-3,.grid-4 { grid-template-columns: 1fr; } }
+
+  /* ── Cards ── */
+  .card { background: var(--canvas); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem; }
+  .card-navy { background: var(--navy-900); border-radius: 12px; padding: 1.1rem 1.2rem; color: var(--white); }
+  .card-brand { background: var(--brand-50); border: 1px solid var(--brand-100); border-radius: 12px; padding: 1.1rem 1.2rem; }
+  .stat-num { font-size: 2rem; font-weight: 800; color: var(--navy-900); line-height: 1; margin-bottom: .25rem; }
+  .stat-label { font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-500); }
+
+  /* ── Badges ── */
+  .badge { display: inline-block; border-radius: 999px; padding: .18rem .7rem; font-size: .75rem; font-weight: 700; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-amber { background: #fef3c7; color: #92400e; }
+  .badge-blue { background: var(--brand-100); color: #1e3a8a; }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-purple { background: #ede9fe; color: #5b21b6; }
+
+  /* ── Agent stages ── */
+  .stage { display: flex; gap: .9rem; align-items: flex-start; padding: .75rem 1rem; border-radius: 10px; background: var(--canvas); border: 1px solid var(--line); }
+  .stage-num { width: 2rem; height: 2rem; border-radius: 50%; background: var(--navy-900); color: var(--white); font-size: .8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .stage-title { font-size: .9rem; font-weight: 700; color: var(--navy-900); }
+  .stage-desc { font-size: .8rem; color: var(--ink-500); margin-top: .15rem; }
+
+  /* ── Flow arrows ── */
+  .flow { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin: 1rem 0; }
+  .flow-box { background: var(--navy-900); color: var(--white); border-radius: 8px; padding: .4rem .9rem; font-size: .8rem; font-weight: 600; white-space: nowrap; }
+  .flow-arrow { color: var(--ink-300); font-size: 1.1rem; }
+  .flow-box.green { background: var(--green-600); }
+  .flow-box.brand { background: var(--brand-600); }
+  .flow-box.amber { background: var(--amber-700); }
+  .flow-box.purple { background: var(--purple-600); }
+
+  /* ── Table ── */
+  table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+  th { text-align: left; padding: .5rem .75rem; background: var(--canvas); color: var(--ink-500); font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; border-bottom: 1px solid var(--line); }
+  td { padding: .55rem .75rem; border-bottom: 1px solid var(--line); color: var(--ink-700); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 1px solid var(--line); margin: 1.5rem 0; }
+
+  /* ── Quote ── */
+  blockquote { border-left: 3px solid var(--brand-500); padding: .6rem 1.2rem; background: var(--brand-50); border-radius: 0 8px 8px 0; font-size: .92rem; color: var(--navy-900); font-style: italic; }
+
+  /* ── Formula block ── */
+  .formula { background: var(--navy-950); color: #e2e8f0; border-radius: 10px; padding: 1rem 1.4rem; font-family: "Courier New", monospace; font-size: .85rem; line-height: 1.8; }
+  .formula .hi { color: #93c5fd; font-weight: 700; }
+
+  /* ── TOC ── */
+  .toc-item { display: flex; align-items: center; gap: .75rem; padding: .5rem 0; border-bottom: 1px solid var(--line); font-size: .9rem; }
+  .toc-num { width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--navy-900); color: var(--white); font-size: .72rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  /* ── Footer ── */
+  .deck-footer { text-align: center; font-size: 11px; color: var(--ink-300); padding: 1.5rem; border-top: 1px solid var(--line); margin-top: 1rem; }
+  .page-label { background: var(--canvas); border-top: 1px solid var(--line); padding: .4rem 1rem; font-size: .72rem; color: var(--ink-300); font-weight: 600; letter-spacing: .06em; text-align: right; }
+</style>
+</head>
+<body style="padding: 2rem 1rem;">
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 1 — COVER
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="cover">
+    <div class="slide-num">NammaFix AI · Hackathon Submission</div>
+    <h1>NammaFix AI</h1>
+    <p class="tagline">Bengaluru Civic Intelligence Platform</p>
+    <p class="sub" style="max-width:580px;">An end-to-end agentic system that transforms raw citizen complaints into deduplicated, prioritised and correctly routed civic work orders — with a human officer as the final approval gate.</p>
+    <div style="margin-top:1.4rem;">
+      <span class="pill">Built with IBM Bob</span>
+      <span class="pill">React 18 + TypeScript</span>
+      <span class="pill">5 AI Agents</span>
+      <span class="pill">Runs in Browser</span>
+    </div>
+    <p style="margin-top:1.6rem; font-size:.82rem; color:#bfdbfe; font-style:italic;">"Report Less. Resolve Smarter. Build a Better Bengaluru."</p>
+  </div>
+  <div class="page-label">Slide 1 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 2 — TABLE OF CONTENTS
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header bg-navy" style="padding-bottom:1.2rem;">
+    <div class="slide-num" style="opacity:.5;">Contents</div>
+    <h2>What's Inside</h2>
+  </div>
+  <div class="slide-body" style="padding-top:1.5rem;">
+    <div class="toc-item"><div class="toc-num">1</div><span>The Problem — Bengaluru's civic complaint crisis</span></div>
+    <div class="toc-item"><div class="toc-num">2</div><span>The Solution — NammaFix AI platform overview</span></div>
+    <div class="toc-item"><div class="toc-num">3</div><span>5-Stage AI Agent Pipeline</span></div>
+    <div class="toc-item"><div class="toc-num">4</div><span>Human-in-the-Loop: Officer Command Centre</span></div>
+    <div class="toc-item"><div class="toc-num">5</div><span>Citizen AI Chatbot</span></div>
+    <div class="toc-item"><div class="toc-num">6</div><span>City Impact Dashboard</span></div>
+    <div class="toc-item"><div class="toc-num">7</div><span>Technical Architecture</span></div>
+    <div class="toc-item"><div class="toc-num">8</div><span>Demo Scenario</span></div>
+    <div class="toc-item"><div class="toc-num">9</div><span>Impact & Scalability</span></div>
+    <div class="toc-item"><div class="toc-num">10</div><span>Built with IBM Bob</span></div>
+    <div class="toc-item" style="border:none;"><div class="toc-num">11</div><span>Source Code & Next Steps</span></div>
+  </div>
+  <div class="page-label">Slide 2 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 3 — PROBLEM
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header bg-navy">
+    <div class="slide-num" style="opacity:.5;">01 · Problem</div>
+    <h2>Bengaluru's Civic Complaint Crisis</h2>
+    <p style="color:#bfdbfe; font-size:.9rem; margin-top:.4rem;">13 million residents. 10,000–20,000 monthly complaints. A system that isn't keeping up.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.6rem;">
+    <div class="grid-2" style="margin-bottom:1.5rem;">
+      <div class="card" style="border-left:4px solid #ef4444;">
+        <h3 style="color:#dc2626;">Duplication Overload</h3>
+        <p class="sub">30–45% of complaints are duplicates of the same issue. Multiple field teams dispatched to the same pothole — wasting public money.</p>
+      </div>
+      <div class="card" style="border-left:4px solid #f59e0b;">
+        <h3 style="color:#b45309;">No Intelligent Triage</h3>
+        <p class="sub">All complaints queue equally. A cracked pavement near a school at night waits beside a minor pothole on a quiet lane.</p>
+      </div>
+      <div class="card" style="border-left:4px solid #3b82f6;">
+        <h3 style="color:#1d4ed8;">Wrong Department Routing</h3>
+        <p class="sub">BBMP road complaints sent to BESCOM. Drainage issues sent to SWM. Mis-routing costs 3–5 extra days per complaint before the right team is engaged.</p>
+      </div>
+      <div class="card" style="border-left:4px solid #8b5cf6;">
+        <h3 style="color:#6d28d9;">Zero Citizen Feedback</h3>
+        <p class="sub">After submitting, citizens receive no status updates, no resolution timeline and no visibility into which department is responsible.</p>
+      </div>
+    </div>
+    <div class="grid-4">
+      <div style="text-align:center; padding:.8rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div class="stat-num" style="color:#dc2626;">45%</div>
+        <div class="stat-label">Duplicate Rate</div>
+      </div>
+      <div style="text-align:center; padding:.8rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div class="stat-num">21</div>
+        <div class="stat-label">Avg days to fix pothole</div>
+      </div>
+      <div style="text-align:center; padding:.8rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Wards flood in monsoon</div>
+      </div>
+      <div style="text-align:center; padding:.8rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div class="stat-num" style="color:#b45309;">5 days</div>
+        <div class="stat-label">Lost to mis-routing</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-label">Slide 3 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 4 — SOLUTION OVERVIEW
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header bg-brand">
+    <div class="slide-num" style="opacity:.6;">02 · Solution</div>
+    <h2>NammaFix AI — Platform Overview</h2>
+    <p style="color:#bfdbfe; font-size:.9rem; margin-top:.4rem;">One platform. Three portals. Five AI agents. Zero backend required.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.6rem;">
+    <div class="flow">
+      <div class="flow-box">Citizen Reports</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box brand">AI Pipeline (5 agents)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box amber">Officer Approves</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box green">Issue Resolved</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box purple">Impact Tracked</div>
+    </div>
+    <hr />
+    <div class="grid-3" style="margin-top:1rem;">
+      <div class="card-navy">
+        <div style="font-size:1.5rem; margin-bottom:.5rem;">🏙️</div>
+        <h3>Citizen Portal</h3>
+        <p style="color:#bfdbfe; font-size:.82rem; margin-top:.3rem;">Report issues with photo, track complaints by ID, get instant AI analysis results. Embedded AI chatbot for FAQs.</p>
+      </div>
+      <div class="card-navy">
+        <div style="font-size:1.5rem; margin-bottom:.5rem;">🛡️</div>
+        <h3>Officer Command Centre</h3>
+        <p style="color:#bfdbfe; font-size:.82rem; margin-top:.3rem;">Review AI recommendations, approve department assignments, update incident status, view full audit trail.</p>
+      </div>
+      <div class="card-navy">
+        <div style="font-size:1.5rem; margin-bottom:.5rem;">📊</div>
+        <h3>City Impact Dashboard</h3>
+        <p style="color:#bfdbfe; font-size:.82rem; margin-top:.3rem;">Live analytics: resolution rates, priority distribution, duplicate savings, ward-wise 6-week trends.</p>
+      </div>
+    </div>
+    <div style="margin-top:1.4rem;">
+      <blockquote>Every complaint is automatically deduplicated, risk-scored and routed — but no issue is dispatched to a field team without an authorised officer's explicit approval.</blockquote>
+    </div>
+  </div>
+  <div class="page-label">Slide 4 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 5 — AI AGENT PIPELINE
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header" style="background:var(--navy-950); color:var(--white);">
+    <div class="slide-num" style="opacity:.5;">03 · AI Pipeline</div>
+    <h2>5-Stage Agent Pipeline</h2>
+    <p style="color:#93c5fd; font-size:.9rem; margin-top:.4rem;">Transparent, deterministic, explainable — every decision traced back to its rule.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.5rem;">
+    <div style="display:flex; flex-direction:column; gap:.75rem;">
+      <div class="stage">
+        <div class="stage-num">1</div>
+        <div>
+          <div class="stage-title">Classification Agent</div>
+          <div class="stage-desc">20+ weighted regex rules across 4 categories. Image filename scanned for hints (no vision model). Flags citizen/AI disagreement for officer review. Outputs category + confidence score.</div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">2</div>
+        <div>
+          <div class="stage-title">Duplicate Detection Agent</div>
+          <div class="stage-desc">Haversine geometry: same category + within 250 m + last 30 days + unresolved. All matched reports merged into oldest incident. Every original Complaint ID preserved. Prevents N field-team dispatches for 1 problem.</div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">3</div>
+        <div>
+          <div class="stage-title">Severity Assessment Agent</div>
+          <div class="stage-desc"><strong>35% Safety · 25% Importance · 25% Population · 15% Duration.</strong> 10 safety signal types. Live-recomputed as reports accumulate and time passes. Critical ≥75 → 24h SLA.</div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">4</div>
+        <div>
+          <div class="stage-title">Department Routing Agent</div>
+          <div class="stage-desc">Category → BBMP department (Roads / SWM / BESCOM / Storm Drain). Locality → BBMP administrative zone. Zero mis-routing.</div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">5</div>
+        <div>
+          <div class="stage-title">Action Recommendation Agent</div>
+          <div class="stage-desc">Generates urgency headline, SLA in hours, 3-step action checklist per category. Advisory only — requires officer approval before dispatch.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-label">Slide 5 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 6 — SEVERITY FORMULA
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header bg-navy">
+    <div class="slide-num" style="opacity:.5;">03 · AI Pipeline — Severity Detail</div>
+    <h2>Severity Scoring: Transparent by Design</h2>
+    <p style="color:#bfdbfe; font-size:.9rem; margin-top:.4rem;">Every score is deterministic, reproducible and auditable. No black box.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.5rem;">
+    <div class="formula">
+      <span class="hi">Priority Score</span> = <span class="hi">0.35</span> × Safety Risk (0–100)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="hi">0.25</span> × Public Importance (0–100)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="hi">0.25</span> × Affected Population (0–100)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="hi">0.15</span> × Unresolved Duration (0–100)
+    </div>
+    <div class="grid-4" style="margin-top:1.2rem;">
+      <div style="text-align:center; padding:.8rem; background:#fef2f2; border-radius:10px; border:1px solid #fecaca;">
+        <div class="stat-num" style="color:#dc2626; font-size:1.5rem;">Critical</div>
+        <div class="stat-label">Score ≥ 75</div>
+        <p class="sub" style="margin-top:.3rem; font-size:.75rem;">SLA: 24 hours</p>
+      </div>
+      <div style="text-align:center; padding:.8rem; background:#fffbeb; border-radius:10px; border:1px solid #fde68a;">
+        <div class="stat-num" style="color:#b45309; font-size:1.5rem;">High</div>
+        <div class="stat-label">Score 50–74</div>
+        <p class="sub" style="margin-top:.3rem; font-size:.75rem;">SLA: 72 hours</p>
+      </div>
+      <div style="text-align:center; padding:.8rem; background:#eff6ff; border-radius:10px; border:1px solid #bfdbfe;">
+        <div class="stat-num" style="color:#1d4ed8; font-size:1.5rem;">Medium</div>
+        <div class="stat-label">Score 25–49</div>
+        <p class="sub" style="margin-top:.3rem; font-size:.75rem;">SLA: 1 week</p>
+      </div>
+      <div style="text-align:center; padding:.8rem; background:#f0fdf4; border-radius:10px; border:1px solid #bbf7d0;">
+        <div class="stat-num" style="color:#15803d; font-size:1.5rem;">Low</div>
+        <div class="stat-label">Score &lt; 25</div>
+        <p class="sub" style="margin-top:.3rem; font-size:.75rem;">SLA: 2 weeks</p>
+      </div>
+    </div>
+    <hr style="margin:1.2rem 0;" />
+    <p style="font-size:.86rem; color:var(--ink-700);"><strong>Safety signals detected (10 categories):</strong> accident/injury, falls/skidding, two-wheelers, deep/wide hazard, electrical/manhole risk, stalling vehicles, night-time risk, children/elderly nearby, traffic disruption, public health (dengue, stray animals, sewage).</p>
+    <p style="font-size:.82rem; color:var(--ink-500); margin-top:.5rem;">Priority is <strong>live-recomputed</strong> every minute — a "Medium" issue ignored for 3 weeks automatically escalates to "High".</p>
+  </div>
+  <div class="page-label">Slide 6 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 7 — OFFICER CENTRE
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header" style="background:var(--navy-800); color:var(--white);">
+    <div class="slide-num" style="opacity:.5;">04 · Human-in-the-Loop</div>
+    <h2>Officer Command Centre</h2>
+    <p style="color:#bfdbfe; font-size:.9rem; margin-top:.4rem;">AI recommends. Humans decide. Every action is audited.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.5rem;">
+    <div class="grid-2">
+      <div>
+        <h3>What officers can do</h3>
+        <ul style="margin-top:.6rem; padding-left:1.1rem; font-size:.88rem; color:var(--ink-700); line-height:2;">
+          <li>Sign in with role-based department authorisation</li>
+          <li>Search + filter incidents by category, status, priority</li>
+          <li>Review the full 5-agent AI analysis panel</li>
+          <li>Approve AI recommendation or override department</li>
+          <li>Progress status: Assigned → In Progress → Resolved</li>
+          <li>View complete timestamped audit trail</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Authorisation rules</h3>
+        <div style="margin-top:.6rem; display:flex; flex-direction:column; gap:.6rem; font-size:.84rem;">
+          <div class="card" style="padding:.75rem 1rem;">
+            <strong>Ananya Rao</strong> — Zonal Officer<br>
+            <span class="sub">All 4 departments (full access)</span>
+          </div>
+          <div class="card" style="padding:.75rem 1rem;">
+            <strong>Ravi Gowda</strong> — Asst. Engineer, Roads<br>
+            <span class="sub">Road Maintenance only</span>
+          </div>
+          <div class="card" style="padding:.75rem 1rem;">
+            <strong>Meera Shetty</strong> — Health Inspector<br>
+            <span class="sub">Solid Waste Management only</span>
+          </div>
+        </div>
+        <p class="sub" style="margin-top:.7rem; font-size:.78rem;">Officers attempting to approve outside their mandate receive an authorisation error. Overrides are recorded in the audit trail.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-label">Slide 7 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 8 — CHATBOT
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header" style="background: linear-gradient(135deg, var(--navy-900), var(--brand-600)); color:var(--white);">
+    <div class="slide-num" style="opacity:.5;">05 · Citizen Chatbot</div>
+    <h2>Namma AI Assistant — Civic Chatbot</h2>
+    <p style="color:#bfdbfe; font-size:.9rem; margin-top:.4rem;">Floating AI assistant on every page. Ask anything about Bengaluru civic services.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.5rem;">
+    <div class="grid-2">
+      <div>
+        <h3>Capabilities</h3>
+        <ul style="margin-top:.6rem; padding-left:1.1rem; font-size:.87rem; color:var(--ink-700); line-height:2.1;">
+          <li>Answer 20 FAQ topics on Bengaluru civic services</li>
+          <li>Live complaint ID lookup (NF-DEMO-0001 etc.)</li>
+          <li>Quick-reply chips for guided navigation</li>
+          <li>Deep-link action buttons to portal sections</li>
+          <li>Persistent across all three pages</li>
+          <li>Fully accessible (ARIA, keyboard, screen reader)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Knowledge Base Topics</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.6rem;">
+          <span class="badge badge-blue">How to report</span>
+          <span class="badge badge-blue">Issue categories</span>
+          <span class="badge badge-blue">Track complaints</span>
+          <span class="badge badge-blue">Complaint statuses</span>
+          <span class="badge badge-green">BBMP & zones</span>
+          <span class="badge badge-green">Helpline numbers</span>
+          <span class="badge badge-green">8 administrative zones</span>
+          <span class="badge badge-amber">Which dept handles what</span>
+          <span class="badge badge-amber">BESCOM streetlights</span>
+          <span class="badge badge-amber">SWM garbage</span>
+          <span class="badge badge-purple">AI pipeline explained</span>
+          <span class="badge badge-purple">Duplicate consolidation</span>
+          <span class="badge badge-purple">Severity scoring</span>
+          <span class="badge badge-red">Data privacy</span>
+          <span class="badge badge-red">Anonymous reporting</span>
+        </div>
+        <p class="sub" style="margin-top:.8rem; font-size:.78rem;">Engine: rule-based keyword intent scoring — same simulated pattern used throughout the platform. No LLM connected.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-label">Slide 8 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 9 — TECHNICAL ARCHITECTURE
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header bg-navy">
+    <div class="slide-num" style="opacity:.5;">07 · Architecture</div>
+    <h2>Technical Architecture</h2>
+    <p style="color:#bfdbfe; font-size:.9rem; margin-top:.4rem;">Zero backend. Zero API keys. Runs entirely in the browser.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.5rem;">
+    <div class="grid-2" style="margin-bottom:1.2rem;">
+      <div>
+        <table>
+          <thead><tr><th>Layer</th><th>Technology</th></tr></thead>
+          <tbody>
+            <tr><td>UI Framework</td><td>React 18 + TypeScript</td></tr>
+            <tr><td>Styling</td><td>Tailwind CSS + design tokens</td></tr>
+            <tr><td>Build</td><td>Vite 5</td></tr>
+            <tr><td>Testing</td><td>Vitest (12 unit tests)</td></tr>
+            <tr><td>State &amp; Persistence</td><td>React Context + localStorage</td></tr>
+            <tr><td>Routing</td><td>Hash-based (#/route)</td></tr>
+            <tr><td>Charts</td><td>Pure SVG (no chart library)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Key Design Principles</h3>
+        <ul style="margin-top:.6rem; padding-left:1.1rem; font-size:.86rem; color:var(--ink-700); line-height:2.1;">
+          <li><strong>No external dependencies</strong> — zero cloud, zero API keys</li>
+          <li><strong>Transparent AI</strong> — every agent explains its reasoning</li>
+          <li><strong>Human-in-the-loop</strong> — officers must approve all dispatches</li>
+          <li><strong>Explainable scoring</strong> — deterministic, published formula</li>
+          <li><strong>Persistent state</strong> — survives page refreshes</li>
+          <li><strong>12 passing tests</strong> — Vitest unit + scenario suite</li>
+        </ul>
+      </div>
+    </div>
+    <div style="background:var(--navy-950); border-radius:10px; padding:1rem 1.4rem; font-family:'Courier New',monospace; font-size:.78rem; color:#e2e8f0; line-height:1.9;">
+      <span style="color:#93c5fd;">src/agents/</span>   classification · duplicate · severity · routing · action + tests<br>
+      <span style="color:#93c5fd;">src/lib/</span>       engine · analytics · geo · format · image · <span style="color:#86efac;">chatbot</span><br>
+      <span style="color:#93c5fd;">src/data/</span>      localities · seed complaints · <span style="color:#86efac;">chatbot FAQ (20 topics)</span><br>
+      <span style="color:#93c5fd;">src/pages/</span>     CitizenPortal · OfficerCentre · ImpactDashboard<br>
+      <span style="color:#93c5fd;">src/components/</span> Badges · Charts · AgentPanel · Icons · <span style="color:#86efac;">ChatBot</span><br>
+      <span style="color:#93c5fd;">submission/</span>    PROBLEM_SOLUTION.md · VIDEO_DEMO_SCRIPT.md · presentation/
+    </div>
+  </div>
+  <div class="page-label">Slide 9 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 10 — DEMO SCENARIO
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header" style="background:var(--brand-600); color:var(--white);">
+    <div class="slide-num" style="opacity:.6;">08 · Demo</div>
+    <h2>Reproducible Demo Scenario</h2>
+    <p style="color:#bfdbfe; font-size:.9rem; margin-top:.4rem;">6 steps. 2 minutes. Shows the entire citizen → resolution loop.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.5rem;">
+    <div style="display:flex; flex-direction:column; gap:.7rem;">
+      <div style="display:flex; gap:.9rem; align-items:flex-start; padding:.7rem 1rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div style="width:1.8rem; height:1.8rem; border-radius:50%; background:var(--brand-600); color:var(--white); font-size:.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+        <div><strong>Citizen Portal</strong> → click "Load sample pothole report" → "Submit &amp; run AI analysis"</div>
+      </div>
+      <div style="display:flex; gap:.9rem; align-items:flex-start; padding:.7rem 1rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div style="width:1.8rem; height:1.8rem; border-radius:50%; background:var(--brand-600); color:var(--white); font-size:.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+        <div><strong>AI Pipeline fires:</strong> Classified as Pothole · 2 duplicates found within 250 m → 1 incident of 3 reports · Scored <span class="badge badge-red">Critical 80+/100</span> · Routed to Road Maintenance · 24h SLA recommended</div>
+      </div>
+      <div style="display:flex; gap:.9rem; align-items:flex-start; padding:.7rem 1rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div style="width:1.8rem; height:1.8rem; border-radius:50%; background:var(--brand-600); color:var(--white); font-size:.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+        <div><strong>Officer Command Centre</strong> → sign in as Ananya Rao → find the incident</div>
+      </div>
+      <div style="display:flex; gap:.9rem; align-items:flex-start; padding:.7rem 1rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div style="width:1.8rem; height:1.8rem; border-radius:50%; background:var(--brand-600); color:var(--white); font-size:.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">4</div>
+        <div>Approve AI recommendation → Assign to <strong>Road Maintenance Department</strong> → Set status <span class="badge badge-blue">In Progress</span></div>
+      </div>
+      <div style="display:flex; gap:.9rem; align-items:flex-start; padding:.7rem 1rem; background:var(--canvas); border-radius:10px; border:1px solid var(--line);">
+        <div style="width:1.8rem; height:1.8rem; border-radius:50%; background:var(--brand-600); color:var(--white); font-size:.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">5</div>
+        <div><strong>City Impact Dashboard</strong> — observe updated resolution %, priority distribution and ward trend for Koramangala South Zone</div>
+      </div>
+      <div style="display:flex; gap:.9rem; align-items:flex-start; padding:.7rem 1rem; background:#f0fdf4; border-radius:10px; border:1px solid #bbf7d0;">
+        <div style="width:1.8rem; height:1.8rem; border-radius:50%; background:var(--green-600); color:var(--white); font-size:.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">6</div>
+        <div><strong>Chat bubble</strong> (bottom-right) → type "NF-DEMO-0001" → bot returns live status, department, priority and history timeline</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-label">Slide 10 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 11 — IBM BOB
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header" style="background:linear-gradient(135deg,#071a33,#1b4079); color:var(--white);">
+    <div class="slide-num" style="opacity:.5;">10 · IBM Bob</div>
+    <h2>Built with IBM Bob</h2>
+    <p style="color:#bfdbfe; font-size:.9rem; margin-top:.4rem;">From blank workspace to working prototype — entirely in an IBM Bob agent session.</p>
+  </div>
+  <div class="slide-body" style="padding-top:1.5rem;">
+    <div class="grid-2">
+      <div>
+        <h3>What IBM Bob Did</h3>
+        <ul style="margin-top:.7rem; padding-left:1.1rem; font-size:.87rem; color:var(--ink-700); line-height:2.1;">
+          <li>Workspace inspection and technology stack selection</li>
+          <li>Full TypeScript + React scaffolding and architecture</li>
+          <li>All 5 AI agent implementations</li>
+          <li>Citizen Portal, Officer Centre, Impact Dashboard UI</li>
+          <li>Synthetic seed data calibration</li>
+          <li>12-test Vitest unit suite</li>
+          <li>Headless browser E2E verification script</li>
+          <li>AI Chatbot (FAQ engine + floating widget UI)</li>
+          <li>All submission documentation</li>
+        </ul>
+      </div>
+      <div>
+        <h3>IBM Bob Capabilities Used</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.7rem;">
+          <span class="badge badge-blue">Codebase exploration</span>
+          <span class="badge badge-blue">Multi-file editing</span>
+          <span class="badge badge-blue">TypeScript type safety</span>
+          <span class="badge badge-green">Architecture planning</span>
+          <span class="badge badge-green">Code generation</span>
+          <span class="badge badge-green">Test writing</span>
+          <span class="badge badge-amber">Build validation</span>
+          <span class="badge badge-amber">CLI execution</span>
+          <span class="badge badge-amber">Error diagnosis</span>
+          <span class="badge badge-purple">Documentation writing</span>
+          <span class="badge badge-purple">HTML presentation</span>
+          <span class="badge badge-red">Todo tracking</span>
+        </div>
+        <div class="card-brand" style="margin-top:1rem; padding:.85rem 1rem;">
+          <p style="font-size:.84rem; color:var(--navy-900);">The entire platform — <strong>55 TypeScript/TSX modules</strong>, 12 unit tests, 5 AI agents, 3 portal pages, 1 chatbot and all submission materials — was built in a single IBM Bob agent session.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-label">Slide 11 of 12</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 12 — CLOSING / REPO
+════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="cover" style="text-align:center;">
+    <div class="slide-num" style="opacity:.5; text-align:center;">11 · Source Code &amp; Next Steps</div>
+    <h1 style="font-size:2rem;">Report Less. Resolve Smarter.</h1>
+    <p class="tagline">Build a Better Bengaluru.</p>
+    <hr style="border-color:rgba(255,255,255,.15); margin:1.5rem auto; max-width:300px;" />
+    <div style="display:inline-block; text-align:left; background:rgba(255,255,255,.08); border-radius:12px; padding:1.2rem 1.8rem; margin:0 auto; min-width:320px;">
+      <p style="font-size:.8rem; color:#93c5fd; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.5rem;">Source Code Repository</p>
+      <p style="font-family:'Courier New',monospace; font-size:.95rem; color:#e2e8f0; word-break:break-all;">[REPOSITORY_LINK_TO_BE_ADDED]</p>
+    </div>
+    <div style="margin-top:1.4rem; display:flex; justify-content:center; flex-wrap:wrap; gap:.8rem; font-size:.82rem;">
+      <span class="pill">npm install &amp;&amp; npm run dev</span>
+      <span class="pill">Node 18+ · No API keys</span>
+      <span class="pill">12 passing tests</span>
+    </div>
+    <p style="margin-top:1.6rem; font-size:.82rem; color:#bfdbfe;">NammaFix AI · Bengaluru Civic Intelligence Platform · Built with IBM Bob</p>
+  </div>
+  <div class="page-label">Slide 12 of 12</div>
+</div>
+
+<!-- ── Footer ── -->
+<div class="deck-footer">
+  NammaFix AI · Hackathon Submission · Built with IBM Bob · All data is synthetic and for demonstration purposes only.<br>
+  <span style="font-size:10px; color:#cbd5e1;">Made with IBM Bob</span>
+</div>
+
+</body>
+</html>

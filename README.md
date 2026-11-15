@@ -70,6 +70,24 @@ src/components/  badges, charts (SVG, no chart library), agent panel, icons
 scripts/e2e.mjs  browser end-to-end check of the demo scenario
 ```
 
+## Citizen AI Chatbot (`src/components/ChatBot.tsx`)
+
+A floating AI assistant (bottom-right on all pages) that answers questions about Bengaluru civic services, explains the AI pipeline, provides BBMP helpline numbers, covers all 8 BBMP administrative zones, and can look up any complaint by ID to return its live status and history.
+
+- 20 FAQ topics — keyword intent scoring (same simulated-rule-based pattern as the agents)
+- Complaint ID lookup: type `NF-DEMO-0001` and get live status, priority, department, audit trail
+- Quick-reply chips and deep-link action buttons to portal sections
+
+## Hackathon Submission
+
+| Deliverable | File / Location |
+| --- | --- |
+| **Problem Statement & Solution Description** | [`submission/PROBLEM_SOLUTION.md`](submission/PROBLEM_SOLUTION.md) |
+| **Presentation Deck** | [`submission/presentation/NammaFix_AI_Deck.html`](submission/presentation/NammaFix_AI_Deck.html) — open in any browser |
+| **Video Demo Script** | [`submission/VIDEO_DEMO_SCRIPT.md`](submission/VIDEO_DEMO_SCRIPT.md) |
+| **Source Code Repository** | `[REPOSITORY_LINK_TO_BE_ADDED]` |
+| **Working Prototype** | `npm run dev` → http://localhost:5173 |
+
 ## Built with IBM Bob
 
-This prototype was designed and implemented in an IBM Bob agent session: workspace inspection and stack selection, scaffolding, the agent pipeline, UI, unit tests, headless-browser verification and iteration on the synthetic data calibration.
+This prototype was designed and implemented in an IBM Bob agent session: workspace inspection and stack selection, scaffolding, the agent pipeline, UI, unit tests, headless-browser verification, iteration on the synthetic data calibration, the citizen AI chatbot, and all hackathon submission materials.
