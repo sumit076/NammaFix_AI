@@ -85,7 +85,7 @@ A floating AI assistant (bottom-right on all pages) that answers questions about
 | **Problem Statement & Solution Description** | [`submission/PROBLEM_SOLUTION.md`](submission/PROBLEM_SOLUTION.md) |
 | **Presentation Deck** | [`submission/presentation/NammaFix_AI_Deck.html`](submission/presentation/NammaFix_AI_Deck.html) — open in any browser |
 | **Video Demonstration of the Solution** | [`NammaFix AI – Bengaluru Civic Intelligence Portal`](https://drive.google.com/file/d/1ELzc_NhbUn_8j0op8a-sbyU7L2m1PCOK/view?usp=drive_link) |
-| **Source Code Repository** | [`Source Code Repository`] (https://github.com/sumit076/NammaFix_AI) |
+| **Source Code Repository** | [`Source Code Repository`](https://github.com/sumit076/NammaFix_AI) |
 | **Video Demo Script** | [`submission/VIDEO_DEMO_SCRIPT.md`](submission/VIDEO_DEMO_SCRIPT.md) |
 
 ## Built with IBM Bob
