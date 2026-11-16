@@ -83,7 +83,7 @@ A floating AI assistant (bottom-right on all pages) that answers questions about
 | Deliverable | File / Location |
 | --- | --- |
 | **Problem Statement & Solution Description** | [`Solution Understanding Document`](https://drive.google.com/file/d/1SzDjGlZtpNaiA9EbiZ270VoQUkZ4QdT1/view?usp=sharing) |
-| **Presentation Deck** | [`NammaFix_AI Deck`](https://drive.google.com/file/d/1rYKBzvRm4iLiDC3yO3N6mK9NLFg7tdTT/view?usp=sharing) |
+| **Presentation Deck** | [`NammaFix_AI Deck`](https://docs.google.com/presentation/d/1vXedO59Gh4nOgPt4EeYNsbFN2qQT_xqijjqq3w2V1HI/edit?usp=sharing) |
 | **Video Demonstration of the Solution** | [`NammaFix AI – Bengaluru Civic Intelligence Portal`](https://drive.google.com/file/d/1ELzc_NhbUn_8j0op8a-sbyU7L2m1PCOK/view?usp=drive_link) |
 | **Source Code Repository** | [`Source Code Repository`](https://github.com/sumit076/NammaFix_AI) |
 | **Video Demo Script** | [`submission/VIDEO_DEMO_SCRIPT.md`](submission/VIDEO_DEMO_SCRIPT.md) |
